@@ -4,7 +4,7 @@
 {% set py_version = environ['CONDA_PY'] %}
 
 package:
-  name: usask_arg_example
+  name: skconfig
   version: {{ version }}
 
 source:
@@ -28,7 +28,7 @@ requirements:
 
 test:
   imports:
-    - usask_arg_example
+    - skconfig
   requires:
     - pytest
   source_files:

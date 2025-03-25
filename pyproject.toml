@@ -3,15 +3,14 @@ requires = ["setuptools>64", "wheel", "setuptools-scm>=8.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "usask_arg_example"
+name = "skconfig"
 dynamic = ["version"]
-description="usask arg example project"
 readme = "README.md"
-dependencies = ['numpy']
-authors = [
-    { name = "AUTHOR", email = "AUTHOR@EXAMPLE.com" },
-]
-requires-python = ">=3.10"
+authors = [{ name = "Nick Lloyd", email = "nick.lloyd@usask.ca" },]
+description="YAML based configuration, adds an extension to use yaml-based macros and environment variables"
+dependencies = ['numpy', 'PyYAML', 'appdirs', 'packaging']
+license = {text = "MIT"}
+requires-python = ">=3.6"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3 :: Only",
@@ -20,11 +19,12 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
+
 [project.optional-dependencies]
 test = ["pytest"]
 
 [tool.setuptools_scm]
-write_to = "src/_version.py"
+write_to = "src/skconfig/_version.py"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

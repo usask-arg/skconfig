@@ -1,0 +1,93 @@
+image: continuumio/anaconda3
+stages:
+  - build_wheel
+  - test_and_docs
+  - deploy
+
+variables:
+  OUTPUT_DOC_DIR: /www/docs/skconfig/
+  OUTPUT_WHEEL_DIR: /www/wheels/
+
+# ---------------------------------------------------
+# Build skretrieval wheel on Linux
+# ---------------------------------------------------
+
+build_wheel_linux:
+  stage: build_wheel
+  tags:
+    - docker
+  script:
+    - conda init bash
+    - python setup.py bdist_wheel -d./wheelhouse/
+  artifacts:
+    paths:
+      - wheelhouse/
+    expire_in: 1 day
+
+# ---------------------------------------------------
+# Test skconfig code on Linux python 3.7
+# ---------------------------------------------------
+
+test-linux:
+  stage: test_and_docs
+  tags:
+  - docker
+  allow_failure: false
+  script:
+    - conda init bash
+    - conda env create --file env.yml -n builddocs  -q
+    - conda install make
+    - source activate builddocs
+    - pip install skconfig -f ./wheelhouse
+    - pycodestyle skconfig
+    - cd docs
+    - make html
+    - cd ../
+    - python -m unittest discover -s ./skconfig -t ./
+  artifacts:
+    paths:
+      - docs/_build/
+    expire_in: 1 day
+
+# ---------------------------------------------------
+# Deploy the skconfig wheels for branch versions. Send it to the wheels/testing folder
+# ---------------------------------------------------
+
+branch-release:
+  stage: deploy
+  except:
+      - master
+      - tags
+  tags:
+    - docker
+  script:
+    - ls -al buildscripts/
+    - ./buildscripts/build_deploy.sh testing/
+
+# ---------------------------------------------------
+# Deploy the skconfig wheels for un-tagged versions. Send it to the wheels/dev folder
+# ---------------------------------------------------
+
+deploy-release:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - docker
+  script:
+    - ls -al buildscripts/
+    - ./buildscripts/build_deploy.sh dev/
+
+# ---------------------------------------------------
+# Deploy the skconfig wheels for tagged versions. Send it to the wheels folder
+# ---------------------------------------------------
+
+deploy-tagged:
+  stage: deploy
+  only:
+    - tags
+  tags:
+    - docker
+  script:
+    - ls -al buildscripts/
+    - ./buildscripts/build_deploy.sh

@@ -1,0 +1,10 @@
+#2020-10-22:
+   psfdata:
+     350.0:
+        - filename: $(ALTIUS_DATABASE_FOLDER)$/file_2020-10-20_350_0.txt
+          center: [0, 0, 45, 78]
+        - filename: $(ALTIUS_DATABASE_FOLDER)$/file_2020-10-20_350_1.txt
+          center: [0, 0, 45, 78]
+     300.0:
+       - $(ALTIUS_DATABASE_FOLDER)$/file_2020-10-20_300_0.txt
+       - $(ALTIUS_DATABASE_FOLDER)$/file_2020-10-20_300_0.txt

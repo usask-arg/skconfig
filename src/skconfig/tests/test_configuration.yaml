@@ -1,0 +1,67 @@
+
+ALTIUS_DATABASE_FOLDER: './default/folder/inside/yamlfile'
+folders:
+    l1pp_datafiles: $(ALTIUS_DATABASE_FOLDER)$/l1pp_datafiles          # Use the environment variable ALTIUS_DATABASE_FOLDER for location of ALTIUS database files etc. If you prefer you can use an explicit folder, e.g E:/altius_data/l1pp_datafiles
+    sdo_hmii_data: $(ALTIUS_DATABASE_FOLDER)$/sdo_hmii_data             # Location where we store the Solar Dynamics Observatory HMI continuum images, see https://sdo.gsfc.nasa.gov/data/aiahmi/ and http://jsoc.stanford.edu/ajax/lookdata.html?ds=hmi.Ic_720s
+
+orbit:
+    nominal_altitude_km : 691.0                      # nominal altitude of the spacecraft in kilometers
+
+uv:
+    front_aperture_area: 25.0                         # front aperture area in cm2.
+    spectral:
+        wavelength_range: [250.0, 370.0]
+    window:
+        native_size:           [2000,1504]              # Y,X dimensions of the native CMOS detector
+        science_native_size:   [171,171]              # Y,X dimensions of the scienmce window in  native pixels
+        science_native_origin: [0,0]                  # Y,X Origin of bottom left corner of science window in native pixel
+        science_binning:       [3,3]                  # Y,X native pixel binning to make science window
+        fov_degrees:           [2.5917959198092038, 1.948056503444799]       # Y,X field of view in degrees across the native size window
+    altius_oob_spectral_light:
+        data_file_folder: $(folders/l1pp_datafiles)$/uv/oob_spectral_light        # oob spectral light data folder. Either absolute path or join with key folders/fl1pp_datafiles
+
+vis:
+    psfdata:
+      2020-10-22: !include 2010-10-22_vis_psf.yaml
+      2020-10-20:
+        350.0:
+          - filename: $(ALTIUS_DATABASE_FOLDER)$/file_2020-10-20_350_0.txt
+            center: [0, 0, 45, 78]
+          - filename: $(ALTIUS_DATABASE_FOLDER)$/file_2020-10-20_350_1.txt
+            center: [0, 0, 45, 78]
+        300.0:
+          - $(ALTIUS_DATABASE_FOLDER)$/file_2020-10-20_300_0.txt
+          - $(ALTIUS_DATABASE_FOLDER)$/file_2020-10-20_300_0.txt
+      2021-03-09:
+        350.0:
+          - filename: $(ALTIUS_DATABASE_FOLDER)$/file_2021-03-09_350_0.txt
+          - filename: $(ALTIUS_DATABASE_FOLDER)$/file_2021-03-09_350_1.txt
+        300.0:
+          - filename: $(ALTIUS_DATABASE_FOLDER)$/file_2021-03-09_300_0.txt
+          - filename: $(ALTIUS_DATABASE_FOLDER)$/file_2021-03-09_300_0.txt
+
+    front_aperture_area: 25.0                         # front aperture area in cm2.
+    spectral:
+        wavelength_range: [400.0, 800.0]
+
+    window:
+        native_size:           [2000,1504]            # Y,X dimensions of the native CMOS detector
+        science_native_size:   [501,  501]            # Y,X dimensions of the scienmce window in  native pixels
+        science_native_origin: [0,0]                  # Y,X Origin of bottom left corner of science window in native pixel
+        science_binning:       [3,3]                  # Y,X native pixel binning to make sceince window
+        fov_degrees:           [2.5917959198092038, 1.948056503444799]       # Y,X field of view in degrees across the native size window
+    spatial_psf:
+        data_file: $( folders/l1pp_datafiles )$/vis/vispsf.mat   # Visible channel point spread function extracted from SPS. Either absolute path or join with key folders/fl1pp_datafiles
+
+nir:
+    front_aperture_area: 25.0                         # front aperture area in cm2.
+    spectral:
+        wavelength_range: [520.0, 1040.0]
+
+    window:
+        native_size:           [2000,1504]            # Y,X dimensions of the native CMOS detector
+        science_native_size:   [501,  501]            # Y,X dimensions of the scienmce window in  native pixels
+        science_native_origin: [0,0]                  # Y,X Origin of bottom left corner of science window in native pixel
+        science_binning:       [3,3]                  # Y,X native pixel binning to make sceince window
+        fov_degrees:           [2.5917959198092038, 1.948056503444799]       # Y,X field of view in degrees across the native size window
+
