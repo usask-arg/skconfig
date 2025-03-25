@@ -22,7 +22,8 @@ The python wheel can also be built from source code,
     python -m build --wheel
 
 ## Usage
-Documentation can be found at ReadTheDocs [skconfig](https://skconfig.readthedocs.io/en/latest/index.html)
+Documentation can be found at ReadTheDocs [skconfig](https://skconfig-arg.readthedocs.io/en/latest/). Please note that 
+we share the same name as the [scikit package](https://skconfig.readthedocs.io/en/latest/) but we are not related to each other.
 
 ## Unit Tests
 It is useful to run the unit tests as the tests will automatically download leap-second files and earth rotation 
