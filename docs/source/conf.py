@@ -116,7 +116,7 @@ html_static_path = ["_static"]
 html_favicon = "_static/usask-arg_icon_32.ico"
 html_theme_options = {
    "icon_links": [ {"name": "Github",
-                    "url": "https://github.com/usask-arg/sktimeutils",
+                    "url": "https://github.com/usask-arg/skconfig",
                     "icon": "fas fa-code-branch"
                     },
                    ],
