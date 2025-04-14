@@ -44,7 +44,7 @@ extensions = ['sphinx.ext.autodoc',
               'numpydoc'
               ]
 
-import sys
+import sys                              # noqa: E402
 if sys.platform == "win32":
     try:
         import sphinx2word
@@ -78,7 +78,7 @@ author = 'ARG'
 # built documents.
 #
 # The short X.Y version.
-version = '' # str(skconfig.__version__)
+version = ''    # str(skconfig.__version__)
 # The full version, including alpha/beta/rc tags.
 release = ''
 
@@ -111,16 +111,16 @@ add_module_names = False
 language = 'en'
 html_theme = 'pydata_sphinx_theme'
 logo_name = 'skproject-logo.png'
-html_logo ='_static/{}'.format(logo_name)
+html_logo = '_static/{}'.format(logo_name)
 html_static_path = ["_static"]
 html_favicon = "_static/usask-arg_icon_32.ico"
 html_theme_options = {
-   "icon_links": [ {"name": "Github",
+    "icon_links": [{"name": "Github",
                     "url": "https://github.com/usask-arg/skconfig",
                     "icon": "fas fa-code-branch"
                     },
                    ],
-    "logo": { "image_light": logo_name, "image_dark": logo_name, 'text':'{}'.format(version)}
+    "logo": {"image_light": logo_name, "image_dark": logo_name, 'text': '{}'.format(version)}
 }
 
 

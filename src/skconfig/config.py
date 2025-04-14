@@ -27,7 +27,10 @@ class CustomLoader(yaml.SafeLoader):
 
     def __init__(self, stream):
 
-        self._root = os.path.split(stream.name)[0]
+        if type(stream) is str:
+            self._root = os.curdir
+        else:
+            self._root = os.path.split(stream.name)[0]
         super(CustomLoader, self).__init__(stream)
 
     def include(self, node):
@@ -56,7 +59,8 @@ class Configuration:
                  file_locator: Union[str, ConfigurationLocatorInfo, None]=None,
                  subkey=None,
                  macro_precedence_order=('env', 'int'),
-                 key_delimiters=('/')):
+                 key_delimiters=('/'),
+                 yaml_text: str=None):
         """
         Initializes and loads yaml based configuration
 
@@ -66,6 +70,7 @@ class Configuration:
             The information required to locate the yaml file. If it is a string then it is assumed to be the pathname
             of the file. If it is an instance of :ref:`configurationlocatorinfo` then it is expanded to form a filename. The default
             value is None, which is useful for creating empty configurations that can be used to save user defined dictionaries.
+            This value should be None if option ``yamL_text`` is used.
 
         subkey: str
             This is used to load a top-level subkey of the YAML file, if it is loaded. Default is None in which all levels are loaded.
@@ -77,16 +82,23 @@ class Configuration:
         key_delimiters: Sequence[str]
             The list of delimiters used to delimit keys when indexing variables in the yaml file. See :meth:`~.set_key_delimiters`
             for a complete description. The default is ``('/')``
+
+        yaml_text: str
+            [Optional]. If set to a string then this value is passed to method :meth:`load_from_text`.
         """
 
         self._filename: str = None
         self._registry: Dict[str, Any] = None
         self._full_registry: Dict[str, Any] = None
         self._macro_expand_order = macro_precedence_order                  # Precedence order when expanding macros, 'int' = internal keys in yaml file, 'env' = environment variables give precedence to
-        self._key_delimiters = key_delimiters                          # Key delimiters when expanding keys like 'uv_detector.pixels.fov' or 'folders/uv/level_0'
+        self._key_delimiters = key_delimiters                               # Key delimiters when expanding keys like 'uv_detector.pixels.fov' or 'folders/uv/level_0'
 
         if (file_locator is not None):
+            assert (yaml_text is None)
             self.load(file_locator, subkey=subkey)
+
+        if yaml_text is not None:
+            self.load_from_text(yaml_text)
 
     # ------------------------------------------------------------------------------
     #           set_values
@@ -300,6 +312,35 @@ class Configuration:
             self._registry = None
             self._filename = None
             raise Exception('Error finding or loading YAML file {}'.format(filename))
+        return self._registry
+
+    # ------------------------------------------------------------------------------
+    #           load
+    # ------------------------------------------------------------------------------
+    def load_from_text(self, yaml_text: str, subkey=None) -> Dict[str, Any]:
+        """
+        Loads the yaml configuration from the given text.  The text should be formatted as standard yaml.  This method complements
+        :meth:`load` which loads the contents of a file.
+
+        Parameters
+        ----------
+        yaml_text: str,
+            The input text encode in standard yaml format.
+
+        subkey: str
+            An optional key that will select one value from the top level key entries in the yaml text.
+
+        Returns
+        -------
+        Dict[str,Any]
+            The dictionary of values read in from the YAML file. None if there was an error loading the YAML file.
+        """
+
+        self._full_registry = yaml.load(yaml_text, Loader=CustomLoader)
+        self._registry = self._full_registry
+        self._verify_keytypes(self._registry)
+        if subkey is not None:
+            self._registry = self._value(subkey, self._registry)
         return self._registry
 
     # ------------------------------------------------------------------------------
