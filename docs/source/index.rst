@@ -2,7 +2,7 @@
 ##########
 skconfig
 ##########
-Package ``skconfig`` provides an interface for managing YAML based configuration files. The package provides a few
+Package `skconfig <https://github.com/usask-arg/skconfig>`_ provides an interface for managing YAML based configuration files. The package provides a few
 extensions to help ease access and usage of the configuration file,
 
 #.  The ability to load and save configuration files in standard locations on the computer.
@@ -19,8 +19,12 @@ documentation here  `sckit-learn documentation <https://skconfig.readthedocs.io/
     overview
     api
 
+History
+-------
+2026-01-22: Updated the code so macro expansion would include expansions from parent configurations.
+
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

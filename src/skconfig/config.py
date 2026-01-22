@@ -2,6 +2,7 @@ from typing import Union, Dict, List, Any, Tuple
 from collections import namedtuple
 from collections.abc import Sequence
 from datetime import date, datetime
+import numbers
 import copy
 import sys
 import os
@@ -363,8 +364,18 @@ class Configuration:
         """
 
         subkey = Configuration()
-        subkey._full_registry = self._full_registry
+
         subkey._registry = self._value(subkeyname, self._registry)
+        simpleentries = {}
+        if (subkey._registry is not None):
+            for key, val in subkey._registry.items():
+                if isinstance(val, str) or isinstance(val, numbers.Number):
+                    simpleentries[key] = val
+        if len(simpleentries) > 0:
+            subkey._full_registry = self._full_registry | simpleentries
+        else:
+            subkey._full_registry = self._full_registry
+
         subkey._filename = self._filename
         assert isinstance(subkey._registry, dict) or isinstance(subkey._registry, Sequence)
         return subkey
