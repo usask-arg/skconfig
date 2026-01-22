@@ -28,5 +28,16 @@
             "args": "--b latex -D master_doc=wordindex docs/source docs/_buildlatex",
             "env": {"PYTHONPATH": "${workspaceFolder}/src"},
         },
+        {
+            "name": "Python Debugger: unittest",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/skconfig/tests/test_config.py",
+            "console": "integratedTerminal",
+            "args": "",
+            "env": {"PYTHONPATH": "${workspaceFolder}/src"},
+            "justMyCode": false
+        },
+
     ]
 }

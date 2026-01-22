@@ -367,7 +367,7 @@ class Configuration:
 
         subkey._registry = self._value(subkeyname, self._registry)
         simpleentries = {}
-        if (subkey._registry is not None):
+        if isinstance(subkey._registry, dict):
             for key, val in subkey._registry.items():
                 if isinstance(val, str) or isinstance(val, numbers.Number):
                     simpleentries[key] = val
